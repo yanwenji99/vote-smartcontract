@@ -81,6 +81,8 @@ cd ~/hyperledger/fabric-samples/test-network
 
 `deployCC` 会在链码目录执行 `go mod vendor` 并下载依赖，首次部署需要网络。
 
+`-ccp` 指向仓库根目录（Go 模块根目录）。建议从干净的克隆部署，或先删除 `cpp/build*` 等构建产物，避免它们被打进链码包。
+
 调用示例（Org1 Admin 环境变量见实验手册第 6 章）：
 
 ```bash
@@ -122,6 +124,15 @@ ctest --test-dir cpp/build --output-on-failure
 ```bash
 cmake -S cpp -B cpp/build -G Ninja \
   -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release
+```
+
+如果没有 Ninja，可以改用 MinGW Makefiles：
+
+```bash
+cmake -S cpp -B cpp/build-mingw -G "MinGW Makefiles" \
+  -DCMAKE_CXX_COMPILER=g++ -DCMAKE_BUILD_TYPE=Release
+cmake --build cpp/build-mingw
+ctest --test-dir cpp/build-mingw --output-on-failure
 ```
 
 交互界面：
