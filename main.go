@@ -25,6 +25,7 @@ func main() {
 	}
 
 	// Start 启动链码的 gRPC 服务，并与 Peer 节点完成注册握手。
+	// 该方法会阻塞运行，直到链码进程退出；正常运行时不会返回。
 	if err := voteChaincode.Start(); err != nil {
 		log.Panicf("Error starting vote chaincode: %v", err)
 	}
